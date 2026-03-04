@@ -51,6 +51,11 @@ bool ExternalCommandProcessComponent::Init() {
           config.output_command_status_name(),
           [this](const std::shared_ptr<CommandStatusRequest>& request,
                  std::shared_ptr<CommandStatus>& response) {
+            // Ensure required fields of CommandStatus are always initialized
+            // to avoid protobuf CHECK failures during serialization.
+            response->set_status(CommandStatusType::UNKNOWN);
+            response->set_message("Cannot get the status of command.");
+
             bool is_get_status = false;
             // Get the command status from command processors.
             for (const auto& processor : command_processors_) {
@@ -61,8 +66,7 @@ bool ExternalCommandProcessComponent::Init() {
               }
             }
             if (!is_get_status) {
-              response->set_status(CommandStatusType::UNKNOWN);
-              response->set_message("Cannot get the status of command.");
+              // Keep the default UNKNOWN status and message set above.
             }
           });
   AINFO << "ExternalCommandProcessComponent init finished.";
