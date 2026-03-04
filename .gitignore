@@ -86,5 +86,20 @@ modules/studio_connector
 
 #WORKSPACE
 
-#dumps
+#ignore dumps
 /dumps
+
+# ignore perception params
+modules/perception/data/params
+modules/perception/data/conf
+
+# ignore localization params
+modules/localization/msf/params
+# ignore sensors params
+modules/drivers/lidar/velodyne/params
+modules/drivers/lidar/velodyne/conf/*
+modules/drivers/lidar/velodyne/params
+modules/drivers/video/conf
+modules/drivers/camera/conf
+# ignore common data
+modules/common/data
